@@ -1,0 +1,14 @@
+D:\Git\MemeDB\MemeDB\bin\Release\MemeDB.exe.config
+D:\Git\MemeDB\MemeDB\bin\Release\MemeDB.exe
+D:\Git\MemeDB\MemeDB\bin\Release\MemeDB.pdb
+D:\Git\MemeDB\MemeDB\obj\Release\MainWindow.g.cs
+D:\Git\MemeDB\MemeDB\obj\Release\App.g.cs
+D:\Git\MemeDB\MemeDB\obj\Release\MemeDB_MarkupCompile.cache
+D:\Git\MemeDB\MemeDB\obj\Release\MemeDB_MarkupCompile.lref
+D:\Git\MemeDB\MemeDB\obj\Release\MainWindow.baml
+D:\Git\MemeDB\MemeDB\obj\Release\MemeDB.g.resources
+D:\Git\MemeDB\MemeDB\obj\Release\MemeDB.Properties.Resources.resources
+D:\Git\MemeDB\MemeDB\obj\Release\MemeDB.csproj.GenerateResource.cache
+D:\Git\MemeDB\MemeDB\obj\Release\MemeDB.csproj.CoreCompileInputs.cache
+D:\Git\MemeDB\MemeDB\obj\Release\MemeDB.exe
+D:\Git\MemeDB\MemeDB\obj\Release\MemeDB.pdb

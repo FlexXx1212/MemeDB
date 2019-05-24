@@ -1,0 +1,15 @@
+D:\Git\MemeDB\MemeDB\bin\Debug\MemeDB.exe.config
+D:\Git\MemeDB\MemeDB\bin\Debug\MemeDB.exe
+D:\Git\MemeDB\MemeDB\bin\Debug\MemeDB.pdb
+D:\Git\MemeDB\MemeDB\obj\Debug\MemeDB.csprojAssemblyReference.cache
+D:\Git\MemeDB\MemeDB\obj\Debug\MainWindow.g.cs
+D:\Git\MemeDB\MemeDB\obj\Debug\App.g.cs
+D:\Git\MemeDB\MemeDB\obj\Debug\MemeDB_MarkupCompile.cache
+D:\Git\MemeDB\MemeDB\obj\Debug\MemeDB_MarkupCompile.lref
+D:\Git\MemeDB\MemeDB\obj\Debug\MainWindow.baml
+D:\Git\MemeDB\MemeDB\obj\Debug\MemeDB.g.resources
+D:\Git\MemeDB\MemeDB\obj\Debug\MemeDB.Properties.Resources.resources
+D:\Git\MemeDB\MemeDB\obj\Debug\MemeDB.csproj.GenerateResource.cache
+D:\Git\MemeDB\MemeDB\obj\Debug\MemeDB.csproj.CoreCompileInputs.cache
+D:\Git\MemeDB\MemeDB\obj\Debug\MemeDB.exe
+D:\Git\MemeDB\MemeDB\obj\Debug\MemeDB.pdb

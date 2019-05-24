@@ -5,8 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MemeDB"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="MainWindow" Height="720" Width="1280" WindowStyle="None" Background="#34495e" BorderBrush="Red" ResizeMode="CanResize">
+    <DockPanel>
+        <DockPanel Name="WindowBar" DockPanel.Dock="Top" Height="30" LastChildFill="False" Background="#2c3e50" MouseDown="WindowBar_MouseDown" MouseMove="WindowBar_MouseMove">
+            <Button DockPanel.Dock="Right" Width="25" Background="Transparent" Foreground="#3498db" FontWeight="Bold" FontSize="20" Padding="0" KeyboardNavigation.IsTabStop="False" BorderBrush="Transparent" FontFamily="Marlett" Click="Button_Click">r</Button>
+            <Button DockPanel.Dock="Right" Width="25" Background="Transparent" Foreground="#3498db" FontWeight="Bold" FontSize="20" Padding="0" KeyboardNavigation.IsTabStop="False" BorderBrush="Transparent" FontFamily="Marlett" Height="25" VerticalAlignment="Bottom" Click="Button_Click_1">2</Button>
+            <Button DockPanel.Dock="Right" Width="25" Background="Transparent" Foreground="#3498db" FontWeight="Bold" FontSize="20" Padding="0" KeyboardNavigation.IsTabStop="False" BorderBrush="Transparent" FontFamily="Marlett" Height="25" VerticalAlignment="Bottom" Click="Button_Click_2">0</Button>
+            <Label Foreground="#3498db" FontSize="20" FontWeight="Bold" Padding="7,2">MemeDB</Label>
+        </DockPanel>
+        <DockPanel>
+            <StackPanel Width="150" Background="#2980b9" DockPanel.Dock="Left"></StackPanel>
+            <Grid></Grid>
+        </DockPanel>
+    </DockPanel>
+    <WindowChrome.WindowChrome>
+        <WindowChrome     
+        CaptionHeight="1"  
+        CornerRadius ="0"
+        ResizeBorderThickness="4"         
+        GlassFrameThickness="0">
+        </WindowChrome>
+    </WindowChrome.WindowChrome>
 </Window>
