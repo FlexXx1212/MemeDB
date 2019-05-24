@@ -5,7 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MemeDB"
         mc:Ignorable="d"
-        Title="MainWindow" Height="720" Width="1280" WindowStyle="None" Background="#34495e" BorderBrush="Red" ResizeMode="CanResize">
+        Title="MainWindow" Height="720" Width="1280" WindowStyle="None" Background="#34495e" BorderBrush="Red" ResizeMode="CanResize" x:Name="MyMainWindow">
+    <Window.Resources>
+        <Style TargetType="ListBox">
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <DataTemplate x:Key="MyImagesItemTemplate">
+            <Grid Width="100" Height="100">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Image Grid.Row="0" Source="{Binding Path=Thumbnail}" Height="80" Width="90" />
+                <Label Grid.Row="1" Content="{Binding Path=Name}" HorizontalAlignment="Center" Foreground="#3498db" FontWeight="Bold"/>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
     <DockPanel>
         <DockPanel Name="WindowBar" DockPanel.Dock="Top" Height="30" LastChildFill="False" Background="#2c3e50" MouseDown="WindowBar_MouseDown" MouseMove="WindowBar_MouseMove">
             <Button DockPanel.Dock="Right" Width="25" Background="Transparent" Foreground="#3498db" FontWeight="Bold" FontSize="20" Padding="0" KeyboardNavigation.IsTabStop="False" BorderBrush="Transparent" FontFamily="Marlett" Click="Button_Click">r</Button>
@@ -15,7 +36,7 @@
         </DockPanel>
         <DockPanel>
             <StackPanel Width="150" Background="#2980b9" DockPanel.Dock="Left"></StackPanel>
-            <Grid></Grid>
+            <ListBox Name="MainList" BorderThickness="0" ItemsSource="{Binding Path=Memes, ElementName=MyMainWindow}" ItemTemplate="{StaticResource MyImagesItemTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent"/>
         </DockPanel>
     </DockPanel>
     <WindowChrome.WindowChrome>
