@@ -22,21 +22,38 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-                <Image Grid.Row="0" Source="{Binding Path=Thumbnail}" Height="80" Width="90" />
+                <Image Grid.Row="0" Source="{Binding Path=Thumbnail}" Height="80" Width="90" Stretch="UniformToFill"/>
                 <Label Grid.Row="1" Content="{Binding Path=Name}" HorizontalAlignment="Center" Foreground="#3498db" FontWeight="Bold"/>
             </Grid>
         </DataTemplate>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:TextInputToVisibilityConverter x:Key="TextInputToVisibilityConverter" />
     </Window.Resources>
     <DockPanel>
-        <DockPanel Name="WindowBar" DockPanel.Dock="Top" Height="30" LastChildFill="False" Background="#2c3e50" MouseDown="WindowBar_MouseDown" MouseMove="WindowBar_MouseMove">
+        <DockPanel Name="WindowBar" DockPanel.Dock="Top" Height="30" LastChildFill="False" Background="#2c3e50" MouseDown="WindowBar_MouseDown" MouseMove="WindowBar_MouseMove" MouseLeftButtonDown="WindowBar_MouseLeftButtonDown">
             <Button DockPanel.Dock="Right" Width="25" Background="Transparent" Foreground="#3498db" FontWeight="Bold" FontSize="20" Padding="0" KeyboardNavigation.IsTabStop="False" BorderBrush="Transparent" FontFamily="Marlett" Click="Button_Click">r</Button>
             <Button DockPanel.Dock="Right" Width="25" Background="Transparent" Foreground="#3498db" FontWeight="Bold" FontSize="20" Padding="0" KeyboardNavigation.IsTabStop="False" BorderBrush="Transparent" FontFamily="Marlett" Height="25" VerticalAlignment="Bottom" Click="Button_Click_1">2</Button>
             <Button DockPanel.Dock="Right" Width="25" Background="Transparent" Foreground="#3498db" FontWeight="Bold" FontSize="20" Padding="0" KeyboardNavigation.IsTabStop="False" BorderBrush="Transparent" FontFamily="Marlett" Height="25" VerticalAlignment="Bottom" Click="Button_Click_2">0</Button>
             <Label Foreground="#3498db" FontSize="20" FontWeight="Bold" Padding="7,2">MemeDB</Label>
         </DockPanel>
         <DockPanel>
-            <StackPanel Width="150" Background="#2980b9" DockPanel.Dock="Left"></StackPanel>
-            <ListBox Name="MainList" BorderThickness="0" ItemsSource="{Binding Path=Memes, ElementName=MyMainWindow}" ItemTemplate="{StaticResource MyImagesItemTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent"/>
+            <DockPanel Width="150" Background="#2980b9" DockPanel.Dock="Left">
+                <ListBox SelectionMode="Single" Name="lbTags" FontSize="15" Foreground="#2c3e50" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden"></ListBox>
+            </DockPanel>
+            <!--<TextBox DockPanel.Dock="Top" Height="30" Foreground="#3498db" Background="Aqua" Margin="10" Width="400" BorderThickness="0"></TextBox>-->
+            <Grid Margin="10" DockPanel.Dock="Top" HorizontalAlignment="Left" Height="30">
+                <TextBlock FontSize="15" Height="30" Width="400" Text="Search..." Foreground="LightSteelBlue">
+                    <TextBlock.Visibility>
+                        <MultiBinding Converter="{StaticResource TextInputToVisibilityConverter}">
+                            <Binding ElementName="txtSearchBox" Path="Text.IsEmpty" />
+                            <Binding ElementName="txtSearchBox" Path="IsFocused" />
+                        </MultiBinding>
+                    </TextBlock.Visibility>
+                </TextBlock>
+                <TextBox FontSize="15" CaretBrush="#3498db" Height="30" BorderThickness="0" Width="400" Foreground="#3498db" Name="txtSearchBox" Background="Transparent" TextChanged="txtSearchBox_TextChanged" />
+                <Separator Background="#FF3498DB" Height="2" VerticalAlignment="Bottom"/>
+            </Grid>
+            <ListBox Name="MainList" BorderThickness="0" ItemsSource="{Binding Path=Memes, ElementName=MyMainWindow}" ItemTemplate="{StaticResource MyImagesItemTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent" SelectionChanged="MainList_SelectionChanged"/>
         </DockPanel>
     </DockPanel>
     <WindowChrome.WindowChrome>

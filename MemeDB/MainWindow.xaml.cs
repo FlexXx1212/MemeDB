@@ -31,31 +31,45 @@ namespace MemeDB
             Memes = new ObservableCollection<Meme>();
             InitializeComponent();
 
-            BitmapImage bi = new BitmapImage();
+            var meme1 = CreateMeme("MC Dab", @"D:\Videos\Recordings\VFX\MCDAB.mp4", new string[] { "minecraft", "dab", "mc", "dabben", "lit", "fam" });
+            var meme2 = CreateMeme("Sub & Like", @"D:\Videos\Recordings\VFX\SubscribeLike_GFX.mp4", new string[] { "subscribe", "like", "abonnieren", "gefällt", "sub" });
+            Memes.Add(meme1);
+            Memes.Add(meme2);
 
-            bi.BeginInit();
-            bi.UriSource = new Uri(@"D:\Videos\Recordings\GFX\photo.jpg");
-            bi.EndInit();
+        }
 
-            Meme m = new Meme("Photo", @"D:\Videos\Recordings\VFX\MCDAB.mp4", new string[] { "minecraft", "dab", "mc", "dabben", "lit", "fam" }, bi);
-            Memes.Add(m);
-
-
+        private Meme CreateMeme(string name, string path, string[] tags)
+        {
             using (MemoryStream memStream = new MemoryStream())
             {
                 FFMpegConverter ffmpeg = new FFMpegConverter();
-                ffmpeg.GetVideoThumbnail(@"D:\Videos\Recordings\VFX\MCDAB.mp4", @"D:\Videos\Recordings\VFX\MCDAB_thumb.jpg");
+                ffmpeg.GetVideoThumbnail(path, path.Remove(path.Length-3) + "jpg");
                 BitmapImage img = new BitmapImage();
                 img.BeginInit();
-                img.UriSource = new Uri(@"D:\Videos\Recordings\VFX\MCDAB_thumb.jpg");
+                img.UriSource = new Uri(path.Remove(path.Length - 3) + "jpg");
                 img.EndInit();
 
-                m = new Meme("MC Dab", @"D:\Videos\Recordings\VFX\MCDAB.mp4", new string[] { "minecraft", "dab", "mc", "dabben", "lit", "fam" }, img);
-                Memes.Add(m);
+                Meme m = new Meme(name, path, tags, img);
+                return m;
             }
+        }
 
+        private ObservableCollection<Meme> SearchTest(string text)
+        {
+            var result = new ObservableCollection<Meme>();
 
-            
+            foreach (var meme in Memes)
+            {
+                foreach (var tag in meme.Tags)
+                {
+                    if (tag.Contains(text))
+                    {
+                        result.Add(meme);
+                        break;
+                    }
+                }
+            }
+            return result;
         }
 
         #region Window Bar
@@ -89,6 +103,34 @@ namespace MemeDB
                 this.DragMove();
             }
         }
+
+        private void WindowBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2)
+                this.WindowState = (this.WindowState == WindowState.Maximized) ? WindowState.Normal : WindowState.Maximized;
+        }
         #endregion
+
+        private void txtSearchBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            if (String.IsNullOrWhiteSpace(txtSearchBox.Text) == false)
+                MainList.ItemsSource = SearchTest(txtSearchBox.Text);
+            else
+                MainList.ItemsSource = Memes;
+        }
+
+        private void MainList_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            var meme = MainList.SelectedItem as Meme;
+            lbTags.Items.Clear();
+
+            if (meme == null)
+                return;
+
+            foreach (var tag in meme.Tags)
+            {
+                lbTags.Items.Add(tag);
+            }
+        }
     }
 }
