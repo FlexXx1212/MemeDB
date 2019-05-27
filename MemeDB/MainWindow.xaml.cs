@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Drawing;
+using MemeDB.Controllers;
 
 namespace MemeDB
 {
@@ -28,30 +29,8 @@ namespace MemeDB
 
         public MainWindow()
         {
-            Memes = new ObservableCollection<Meme>();
+            Memes = MemeController.Instance.Memes;
             InitializeComponent();
-
-            var meme1 = CreateMeme("MC Dab", @"D:\Videos\Recordings\VFX\MCDAB.mp4", new string[] { "minecraft", "dab", "mc", "dabben", "lit", "fam" });
-            var meme2 = CreateMeme("Sub & Like", @"D:\Videos\Recordings\VFX\SubscribeLike_GFX.mp4", new string[] { "subscribe", "like", "abonnieren", "gefällt", "sub" });
-            Memes.Add(meme1);
-            Memes.Add(meme2);
-
-        }
-
-        private Meme CreateMeme(string name, string path, string[] tags)
-        {
-            using (MemoryStream memStream = new MemoryStream())
-            {
-                FFMpegConverter ffmpeg = new FFMpegConverter();
-                ffmpeg.GetVideoThumbnail(path, path.Remove(path.Length-3) + "jpg");
-                BitmapImage img = new BitmapImage();
-                img.BeginInit();
-                img.UriSource = new Uri(path.Remove(path.Length - 3) + "jpg");
-                img.EndInit();
-
-                Meme m = new Meme(name, path, tags, img);
-                return m;
-            }
         }
 
         private ObservableCollection<Meme> SearchTest(string text)
@@ -124,7 +103,7 @@ namespace MemeDB
             var meme = MainList.SelectedItem as Meme;
             lbTags.Items.Clear();
 
-            if (meme == null)
+            if (meme == null || meme.Tags == null || meme.Tags.Length == 0)
                 return;
 
             foreach (var tag in meme.Tags)
