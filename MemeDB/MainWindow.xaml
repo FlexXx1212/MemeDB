@@ -53,7 +53,7 @@
                 <TextBox FontSize="15" CaretBrush="#3498db" Height="30" BorderThickness="0" Width="400" Foreground="#3498db" Name="txtSearchBox" Background="Transparent" TextChanged="txtSearchBox_TextChanged" />
                 <Separator Background="#FF3498DB" Height="2" VerticalAlignment="Bottom"/>
             </Grid>
-            <ListBox Name="MainList" BorderThickness="0" ItemsSource="{Binding Path=Memes, ElementName=MyMainWindow}" ItemTemplate="{StaticResource MyImagesItemTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent" SelectionChanged="MainList_SelectionChanged"/>
+            <ListBox Name="MainList" AllowDrop="True" Drop="MainList_Drop" BorderThickness="0" ItemsSource="{Binding Path=Memes, ElementName=MyMainWindow}" ItemTemplate="{StaticResource MyImagesItemTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent" SelectionChanged="MainList_SelectionChanged"/>
         </DockPanel>
     </DockPanel>
     <WindowChrome.WindowChrome>

@@ -96,6 +96,9 @@ namespace MemeDB
                 MainList.ItemsSource = SearchTest(txtSearchBox.Text);
             else
                 MainList.ItemsSource = Memes;
+
+            if (MainList.SelectedItem == null)
+                MainList.SelectedIndex = 0;
         }
 
         private void MainList_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -109,6 +112,19 @@ namespace MemeDB
             foreach (var tag in meme.Tags)
             {
                 lbTags.Items.Add(tag);
+            }
+        }
+
+        private void MainList_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+                foreach (var file in files)
+                {
+                    MemeController.Instance.CreateAndAddMeme(file);
+                }
             }
         }
     }

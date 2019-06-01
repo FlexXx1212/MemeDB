@@ -12,7 +12,8 @@ D:\Git\MemeDB\MemeDB\obj\Debug\MemeDB.csproj.GenerateResource.cache
 D:\Git\MemeDB\MemeDB\obj\Debug\MemeDB.csproj.CoreCompileInputs.cache
 D:\Git\MemeDB\MemeDB\obj\Debug\MemeDB.exe
 D:\Git\MemeDB\MemeDB\obj\Debug\MemeDB.pdb
-D:\Git\MemeDB\MemeDB\obj\Debug\MemeDB.csprojResolveAssemblyReference.cache
 D:\Git\MemeDB\MemeDB\bin\Debug\NReco.VideoConverter.dll
 D:\Git\MemeDB\MemeDB\bin\Debug\NReco.VideoConverter.xml
 D:\Git\MemeDB\MemeDB\obj\Debug\GeneratedInternalTypeHelper.g.cs
+D:\Git\MemeDB\MemeDB\obj\Debug\MemeDB.csprojAssemblyReference.cache
+D:\Git\MemeDB\MemeDB\obj\Debug\MemeDB.csproj.CopyComplete
