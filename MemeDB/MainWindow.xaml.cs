@@ -103,12 +103,16 @@ namespace MemeDB
 
         private void MainList_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            var meme = MainList.SelectedItem as Meme;
-            lbTags.Items.Clear();
+            Meme meme = MainList.SelectedItem as Meme;
 
+            lbTags.Items.Clear();
+            
             if (meme == null || meme.Tags == null || meme.Tags.Length == 0)
                 return;
 
+            if (MainList.SelectedItems != null && MainList.SelectedItems.Count > 1)
+                return;
+            
             foreach (var tag in meme.Tags)
             {
                 lbTags.Items.Add(tag);
@@ -126,6 +130,30 @@ namespace MemeDB
                     MemeController.Instance.CreateAndAddMeme(file);
                 }
             }
+        }
+
+        private void MainList_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed && MainList.SelectedItems != null && MainList.SelectedItems.Count > 0 && shouldDragDrop)
+            {
+                string[] filepaths = new string[MainList.SelectedItems.Count];
+                int i = 0;
+                foreach (var item in MainList.SelectedItems)
+                    filepaths[i++] = ((Meme)item).Path;
+
+                DataObject data = new DataObject(DataFormats.FileDrop, filepaths);
+                data.SetData(DataFormats.StringFormat, filepaths);
+                DragDrop.DoDragDrop(this, data, DragDropEffects.Copy);
+            } else
+            {
+                shouldDragDrop = false;
+            }
+        }
+
+        private bool shouldDragDrop = false;
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            shouldDragDrop = true;
         }
     }
 }

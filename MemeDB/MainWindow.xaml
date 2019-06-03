@@ -17,7 +17,7 @@
             </Setter>
         </Style>
         <DataTemplate x:Key="MyImagesItemTemplate">
-            <Grid Width="100" Height="100">
+            <Grid Width="100" Height="100" MouseDown="Grid_MouseDown">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
@@ -38,7 +38,10 @@
         </DockPanel>
         <DockPanel>
             <DockPanel Width="150" Background="#2980b9" DockPanel.Dock="Left">
-                <ListBox SelectionMode="Single" Name="lbTags" FontSize="15" Foreground="#2c3e50" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden"></ListBox>
+                <Label DockPanel.Dock="Top" Margin="10,0,0,0" Foreground="white" FontSize="20" FontWeight="Bold" Padding="7,2">Tags:</Label>
+                <Button DockPanel.Dock="Bottom" Margin="5" Background="#2c3e50" Foreground="#3498db" FontWeight="Bold" FontSize="20">Remove</Button>
+                <Button DockPanel.Dock="Bottom" Margin="5" Background="#2c3e50" Foreground="#3498db" FontWeight="Bold" FontSize="20">Edit</Button>
+                <ListBox SelectionMode="Single" Name="lbTags" FontSize="15" BorderThickness="0" Margin="10" Foreground="white" Background="#34495e" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden"></ListBox>
             </DockPanel>
             <!--<TextBox DockPanel.Dock="Top" Height="30" Foreground="#3498db" Background="Aqua" Margin="10" Width="400" BorderThickness="0"></TextBox>-->
             <Grid Margin="10" DockPanel.Dock="Top" HorizontalAlignment="Left" Height="30">
@@ -53,7 +56,7 @@
                 <TextBox FontSize="15" CaretBrush="#3498db" Height="30" BorderThickness="0" Width="400" Foreground="#3498db" Name="txtSearchBox" Background="Transparent" TextChanged="txtSearchBox_TextChanged" />
                 <Separator Background="#FF3498DB" Height="2" VerticalAlignment="Bottom"/>
             </Grid>
-            <ListBox Name="MainList" AllowDrop="True" Drop="MainList_Drop" BorderThickness="0" ItemsSource="{Binding Path=Memes, ElementName=MyMainWindow}" ItemTemplate="{StaticResource MyImagesItemTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent" SelectionChanged="MainList_SelectionChanged"/>
+            <ListBox Name="MainList" SelectionMode="Single" MouseMove="MainList_MouseMove"  AllowDrop="True" Drop="MainList_Drop" BorderThickness="0" ItemsSource="{Binding Path=Memes, ElementName=MyMainWindow}" ItemTemplate="{StaticResource MyImagesItemTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent" SelectionChanged="MainList_SelectionChanged"/>
         </DockPanel>
     </DockPanel>
     <WindowChrome.WindowChrome>

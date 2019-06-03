@@ -55,6 +55,9 @@ namespace MemeDB.Controllers
         /// <returns></returns>
         public Meme CreateAndAddMeme(string path, string[] tags = null)
         {
+            if (MemeExists(path))
+                return null;
+
             using (MemoryStream memStream = new MemoryStream())
             {
                 FFMpegConverter ffmpeg = new FFMpegConverter();
@@ -70,6 +73,15 @@ namespace MemeDB.Controllers
             }
         }
 
+        private bool MemeExists(string path)
+        {
+            foreach (var item in Memes)
+            {
+                if(item.Path == path)
+                    return true;
+            }
+            return false;
+        }
 
         public static BitmapSource GetImageStream(Image myImage)
         {
