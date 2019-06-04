@@ -1,0 +1,28 @@
+﻿<Window x:Class="MemeDB.MemeEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MemeDB"
+        mc:Ignorable="d"
+        Title="MemeEditor" Height="450" Width="800" WindowStyle="None" Background="#2980b9" ResizeMode="CanResize" x:Name="MyMemeEditor">
+    <DockPanel>
+        <DockPanel Name="WindowBar" DockPanel.Dock="Top" Height="30" LastChildFill="False" Background="#2c3e50" MouseDown="WindowBar_MouseDown" MouseMove="WindowBar_MouseMove" MouseLeftButtonDown="WindowBar_MouseLeftButtonDown">
+            <Button DockPanel.Dock="Right" Width="25" Background="Transparent" Foreground="#3498db" FontWeight="Bold" FontSize="20" Padding="0" KeyboardNavigation.IsTabStop="False" BorderBrush="Transparent" FontFamily="Marlett" Click="Button_Click">r</Button>
+            <Button DockPanel.Dock="Right" Width="25" Background="Transparent" Foreground="#3498db" FontWeight="Bold" FontSize="20" Padding="0" KeyboardNavigation.IsTabStop="False" BorderBrush="Transparent" FontFamily="Marlett" Height="25" VerticalAlignment="Bottom" Click="Button_Click_1">2</Button>
+            <Button DockPanel.Dock="Right" Width="25" Background="Transparent" Foreground="#3498db" FontWeight="Bold" FontSize="20" Padding="0" KeyboardNavigation.IsTabStop="False" BorderBrush="Transparent" FontFamily="Marlett" Height="25" VerticalAlignment="Bottom" Click="Button_Click_2">0</Button>
+            <Label Foreground="#3498db" FontSize="20" FontWeight="Bold" Padding="7,2">MemeEditor</Label>
+        </DockPanel>
+        <DockPanel>
+            <TextBlock>Nix</TextBlock>
+        </DockPanel>
+    </DockPanel>
+    <WindowChrome.WindowChrome>
+        <WindowChrome     
+        CaptionHeight="1"  
+        CornerRadius ="0"
+        ResizeBorderThickness="4"         
+        GlassFrameThickness="0">
+        </WindowChrome>
+    </WindowChrome.WindowChrome>
+</Window>

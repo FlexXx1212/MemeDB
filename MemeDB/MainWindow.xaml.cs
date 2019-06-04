@@ -17,6 +17,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Drawing;
 using MemeDB.Controllers;
+using System.Globalization;
+using System.Threading;
 
 namespace MemeDB
 {
@@ -31,6 +33,15 @@ namespace MemeDB
         {
             Memes = MemeController.Instance.Memes;
             InitializeComponent();
+            InitText();
+        }
+
+        private void InitText()
+        {
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(ConfigController.Instance.Config.Language);
+            btnEdit.Content = Properties.Resources.ButtonEdit;
+            btnRemove.Content = Properties.Resources.ButtonRemove;
+            tbPreviewSearchBar.Text = Properties.Resources.PreviewSearchBar;
         }
 
         private ObservableCollection<Meme> SearchTest(string text)
@@ -154,6 +165,12 @@ namespace MemeDB
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             shouldDragDrop = true;
+        }
+
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            MemeEditor tes = new MemeEditor();
+            tes.ShowDialog();
         }
     }
 }
