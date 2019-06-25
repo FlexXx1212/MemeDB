@@ -82,7 +82,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\ConfigController.cs" />
-    <Compile Include="Controllers\DataController.cs" />
     <Compile Include="Controllers\MemeController.cs" />
     <Compile Include="Converters\TextInputToVisibilityConverter.cs" />
     <Compile Include="MainWindow.xaml.cs">

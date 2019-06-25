@@ -42,6 +42,7 @@ namespace MemeDB.Controllers
         {
             this.config = new Config();
             this.config.Language = "de-DE";
+            this.config.Theme = Config.Themes.Dark;
         }
     }
 
@@ -49,5 +50,13 @@ namespace MemeDB.Controllers
     class Config
     {
         public string Language { get; set; }
+
+        public Themes Theme { get; set; }
+
+        public enum Themes
+        {
+            Light,
+            Dark
+        }
     }
 }

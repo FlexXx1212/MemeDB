@@ -1,21 +1,14 @@
 ﻿using MemeDB.Models;
-using NReco.VideoConverter;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media.Imaging;
 
 namespace MemeDB.Controllers
 {
     class MemeController
     {
+        public static string FilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MemeDB", "memes.xml");
+
         public ObservableCollection<Meme> Memes { get; set; }
 
         #region Singelton
@@ -43,34 +36,25 @@ namespace MemeDB.Controllers
         /// </summary>
         private void LoadMemes()
         {
-            var meme1 = CreateAndAddMeme(@"D:\Videos\Recordings\VFX\MCDAB.mp4", new string[] { "minecraft", "dab", "mc", "dabben", "lit", "fam" });
-            var meme2 = CreateAndAddMeme(@"D:\Videos\Recordings\VFX\SubscribeLike_GFX.mp4", new string[] { "subscribe", "like", "abonnieren", "gefällt", "sub" });
+            var meme1 = CreateAndAddMeme(@"D:\Videos\Recordings\VFX\MCDAB.mp4", new string[] { "minecraft", "dab", "mc", "dabben", "lit", "fam" }, "MC Dab");
+            var meme2 = CreateAndAddMeme(@"D:\Videos\Recordings\VFX\SubscribeLike_GFX.mp4", new string[] { "subscribe", "like", "abonnieren", "gefällt", "sub" }, "Subscribe & Like");
         }
-        
+
         /// <summary>
         /// Creates the Meme Object and adds it to the Meme Collection
         /// </summary>
         /// <param name="path">File Path</param>
         /// <param name="tags">List of Tags</param>
+        /// <param name="name">Name of the Meme</param>
         /// <returns></returns>
-        public Meme CreateAndAddMeme(string path, string[] tags = null)
+        public Meme CreateAndAddMeme(string path, string[] tags = null, string name = null)
         {
             if (MemeExists(path))
                 return null;
 
-            using (MemoryStream memStream = new MemoryStream())
-            {
-                FFMpegConverter ffmpeg = new FFMpegConverter();
-                ffmpeg.GetVideoThumbnail(path, memStream);
-
-                using (Image image = Image.FromStream(memStream, true, false))
-                {
-                    var bitmapSource = GetImageStream(image);
-                    Meme m = new Meme(Path.GetFileNameWithoutExtension(path), path, tags, bitmapSource);
-                    Memes.Add(m);
-                    return m;
-                }
-            }
+            Meme m = new Meme(Path.GetFileNameWithoutExtension(path), path, tags, 0);
+            Memes.Add(m);
+            return m;
         }
 
         private bool MemeExists(string path)
@@ -82,28 +66,5 @@ namespace MemeDB.Controllers
             }
             return false;
         }
-
-        public static BitmapSource GetImageStream(Image myImage)
-        {
-            var bitmap = new Bitmap(myImage);
-            IntPtr bmpPt = bitmap.GetHbitmap();
-            BitmapSource bitmapSource =
-             System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-                   bmpPt,
-                   IntPtr.Zero,
-                   Int32Rect.Empty,
-                   BitmapSizeOptions.FromEmptyOptions());
-
-            //freeze bitmapSource and clear memory to avoid memory leaks
-            bitmapSource.Freeze();
-            
-            DeleteObject(bmpPt);
-
-            return bitmapSource;
-        }
-
-        [DllImport("gdi32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool DeleteObject(IntPtr value);
     }
 }
