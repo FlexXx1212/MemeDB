@@ -1,24 +1,12 @@
 ﻿using MemeDB.Models;
-using NReco.VideoConverter;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Drawing;
 using MemeDB.Controllers;
 using System.Globalization;
 using System.Threading;
+using Microsoft.Win32;
 
 namespace MemeDB
 {
@@ -27,20 +15,24 @@ namespace MemeDB
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region Properties
         public ObservableCollection<Meme> Memes { get; set; }
+        #endregion
 
+        #region Constructor
         public MainWindow()
         {
             Memes = MemeController.Instance.Memes;
             InitializeComponent();
             InitText();
         }
+        #endregion
 
+        #region Functions
         private void InitText()
         {
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(ConfigController.Instance.Config.Language);
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(Properties.Settings.Default.Language);
             btnEdit.Content = Properties.Resources.ButtonEdit;
-            btnRemove.Content = Properties.Resources.ButtonRemove;
             tbPreviewSearchBar.Text = Properties.Resources.PreviewSearchBar;
         }
 
@@ -50,57 +42,64 @@ namespace MemeDB
 
             foreach (var meme in Memes)
             {
-                foreach (var tag in meme.Tags)
+                // search in Name
+                if (meme.Name.Contains(text))
                 {
-                    if (tag.Contains(text))
+                    result.Add(meme);
+                    continue;
+                }
+
+                // search in Tags
+                if (meme.Tags != null && meme.Tags.Length > 0)
+                {
+                    foreach (var tag in meme.Tags)
                     {
-                        result.Add(meme);
-                        break;
+                        if (tag.Contains(text))
+                        {
+                            result.Add(meme);
+                            break;
+                        }
                     }
                 }
             }
             return result;
         }
 
-        #region Window Bar
-        private void WindowBar_MouseDown(object sender, MouseButtonEventArgs e)
+        /// <summary>
+        /// Opens the MemeEditor Window if an Item is selected
+        /// </summary>
+        private void EditMeme()
         {
-            if (e.ChangedButton == MouseButton.Left)
-                this.DragMove();
+            var item = MainList.SelectedItem;
+            if (item == null || !(item is Meme))
+                return;
+
+            MemeEditor tes = new MemeEditor(item as Meme);
+            tes.Owner = this;
+            tes.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            tes.ShowDialog();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void AddMemesFromExplorer()
         {
-            Application.Current.Shutdown();
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            this.WindowState = (this.WindowState == WindowState.Maximized) ? WindowState.Normal : WindowState.Maximized;
-        }
-
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            this.WindowState = WindowState.Minimized;
-        }
-
-        private void WindowBar_MouseMove(object sender, MouseEventArgs e)
-        {
-            if(e.LeftButton == MouseButtonState.Pressed && this.WindowState == WindowState.Maximized)
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Multiselect = true;
+            if (openFileDialog.ShowDialog() == true)
             {
-                this.WindowState = WindowState.Normal;
-                this.Top = 0;
-                this.DragMove();
+                foreach (var file in openFileDialog.FileNames)
+                {
+                    MemeController.Instance.AddMeme(file);
+                }
             }
         }
 
-        private void WindowBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void DeleteMeme()
         {
-            if (e.ClickCount == 2)
-                this.WindowState = (this.WindowState == WindowState.Maximized) ? WindowState.Normal : WindowState.Maximized;
+            MemeController.Instance.DeleteMeme();
         }
         #endregion
-
+        
+        #region Events
         private void txtSearchBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             if (String.IsNullOrWhiteSpace(txtSearchBox.Text) == false)
@@ -117,17 +116,24 @@ namespace MemeDB
             Meme meme = MainList.SelectedItem as Meme;
 
             lbTags.Items.Clear();
-            
-            if (meme == null || meme.Tags == null || meme.Tags.Length == 0)
+
+            btnEdit.IsEnabled = false;
+
+            if (meme == null)
                 return;
 
             if (MainList.SelectedItems != null && MainList.SelectedItems.Count > 1)
                 return;
-            
-            foreach (var tag in meme.Tags)
+
+            if (meme.Tags != null && meme.Tags.Length > 0)
             {
-                lbTags.Items.Add(tag);
+                foreach (var tag in meme.Tags)
+                {
+                    lbTags.Items.Add(tag);
+                }
             }
+
+            btnEdit.IsEnabled = true;
         }
 
         private void MainList_Drop(object sender, DragEventArgs e)
@@ -138,7 +144,7 @@ namespace MemeDB
 
                 foreach (var file in files)
                 {
-                    MemeController.Instance.CreateAndAddMeme(file);
+                    MemeController.Instance.AddMeme(file);
                 }
             }
         }
@@ -169,8 +175,84 @@ namespace MemeDB
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            MemeEditor tes = new MemeEditor();
-            tes.ShowDialog();
+            EditMeme();
         }
+
+        private void MenuButtonExit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void MenuButtonAdd_Click(object sender, RoutedEventArgs e)
+        {
+            AddMemesFromExplorer();
+        }
+
+        private void MenuButtonEditMeme_Click(object sender, RoutedEventArgs e)
+        {
+            EditMeme();
+        }
+
+        private void MenuButtonDeleteMeme_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteMeme();
+        }
+        
+
+        private void MenuButtonOptions_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("MenuButtonOptions_Click");
+        }
+
+        private void MenuButtonAbout_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("MenuButtonAbout_Click");
+        }
+
+        private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if(e.ClickCount == 2)
+                EditMeme();
+        }
+        #endregion
+
+        #region Window Bar
+        private void WindowBar_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                this.DragMove();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = (this.WindowState == WindowState.Maximized) ? WindowState.Normal : WindowState.Maximized;
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void WindowBar_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed && this.WindowState == WindowState.Maximized)
+            {
+                this.WindowState = WindowState.Normal;
+                this.Top = 0;
+                this.DragMove();
+            }
+        }
+
+        private void WindowBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2)
+                this.WindowState = (this.WindowState == WindowState.Maximized) ? WindowState.Normal : WindowState.Maximized;
+        }
+        #endregion
     }
 }

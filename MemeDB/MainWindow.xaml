@@ -18,7 +18,7 @@
             </Setter>
         </Style>
         <DataTemplate x:Key="MyImagesItemTemplate">
-            <Grid Width="100" Height="100" MouseDown="Grid_MouseDown">
+            <Grid Width="100" Height="100" MouseDown="Grid_MouseDown" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
@@ -35,12 +35,25 @@
             <Button DockPanel.Dock="Right" Width="25" Background="Transparent" Foreground="#3498db" FontWeight="Bold" FontSize="20" Padding="0" KeyboardNavigation.IsTabStop="False" BorderBrush="Transparent" FontFamily="Marlett" Click="Button_Click">r</Button>
             <Button DockPanel.Dock="Right" Width="25" Background="Transparent" Foreground="#3498db" FontWeight="Bold" FontSize="20" Padding="0" KeyboardNavigation.IsTabStop="False" BorderBrush="Transparent" FontFamily="Marlett" Height="25" VerticalAlignment="Bottom" Click="Button_Click_1">2</Button>
             <Button DockPanel.Dock="Right" Width="25" Background="Transparent" Foreground="#3498db" FontWeight="Bold" FontSize="20" Padding="0" KeyboardNavigation.IsTabStop="False" BorderBrush="Transparent" FontFamily="Marlett" Height="25" VerticalAlignment="Bottom" Click="Button_Click_2">0</Button>
-            <Label Foreground="#3498db" FontSize="20" FontWeight="Bold" Padding="7,2">MemeDB</Label>
+            <Label Foreground="#3498db" FontSize="20" FontWeight="Bold" Padding="7,2" DockPanel.Dock="Left">MemeDB</Label>
+            <Menu Background="Transparent" Foreground="#3498db" Margin="20,0,0,0" FontSize="20" BorderThickness="0">
+                <MenuItem Header="File" Foreground="#3498db">
+                    <MenuItem Name="MenuButtonAdd" Header="Add" Click="MenuButtonAdd_Click"/>
+                    <!--<MenuItem Header="Import"/>-->
+                    <Separator/>
+                    <MenuItem Name="MenuButtonExit" Header="Exit" Click="MenuButtonExit_Click"/>
+                </MenuItem>
+                <MenuItem Header="Edit" Foreground="#3498db">
+                    <MenuItem Name="MenuButtonEditMeme" Header="Edit Meme" Click="MenuButtonEditMeme_Click"/>
+                    <MenuItem Name="MenuButtonDeleteMeme" Header="Delete Meme" Click="MenuButtonDeleteMeme_Click"/>
+                </MenuItem>
+                <MenuItem Name="MenuButtonOptions" Header="Options" Foreground="#3498db" Click="MenuButtonOptions_Click"/>
+                <MenuItem Name="MenuButtonAbout" Header="About" Foreground="#3498db" Click="MenuButtonAbout_Click"/>
+            </Menu>
         </DockPanel>
         <DockPanel>
             <DockPanel Width="150" Background="#2980b9" DockPanel.Dock="Left">
                 <Label DockPanel.Dock="Top" Margin="10,0,0,0" Foreground="white" FontSize="20" FontWeight="Bold" Padding="7,2">Tags:</Label>
-                <Button Name="btnRemove" DockPanel.Dock="Bottom" Margin="5" Background="#2c3e50" Foreground="#3498db" FontWeight="Bold" FontSize="20">Remove</Button>
                 <Button Name="btnEdit" DockPanel.Dock="Bottom" Margin="5" Background="#2c3e50" Foreground="#3498db" FontWeight="Bold" FontSize="20" Click="btnEdit_Click">Edit</Button>
                 <ListBox SelectionMode="Single" Name="lbTags" FontSize="15" BorderThickness="0" Margin="10" Foreground="white" Background="#34495e" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden"></ListBox>
             </DockPanel>

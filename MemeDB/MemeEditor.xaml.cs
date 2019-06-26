@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MemeDB.Models;
 
 namespace MemeDB
 {
@@ -19,12 +20,81 @@ namespace MemeDB
     /// </summary>
     public partial class MemeEditor : Window
     {
-        public MemeEditor()
+        #region Properties
+        private Meme meme;
+        #endregion
+
+        #region Constructor
+        public MemeEditor(Meme m)
         {
             InitializeComponent();
+            meme = m;
+
+            Init();
+        }
+        #endregion
+
+        #region Functions
+        private void Init()
+        {
+            tbName.Text = meme.Name;
+            if (meme.Tags != null && meme.Tags.Length > 0)
+            {
+                foreach (var tag in meme.Tags)
+                {
+                    lbTags.Items.Add(tag);
+                }
+            }
+        }
+        #endregion
+
+        #region Events
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO: Check for changes
+            this.Close();
         }
 
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            meme.Name = this.tbName.Text;
 
+            string[] newTags = new string[lbTags.Items.Count];
+
+            for (int i = 0; i < lbTags.Items.Count; i++)
+            {
+                newTags[i] = lbTags.Items[i] as string;
+            }
+
+            meme.Tags = newTags;
+
+            this.Close();
+        }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            if(!lbTags.Items.Contains(tbSearch.Text))
+            {
+                lbTags.Items.Add(tbSearch.Text);
+            }
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if(lbTags.SelectedItem != null)
+            {
+                lbTags.Items.Remove(lbTags.SelectedItem);
+                lbTags.SelectedIndex = 0;
+            }
+        }
+
+        private void btnDeleteMeme_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO: warning
+            this.Close();
+        }
+        #endregion
+        
         #region Window Bar
         private void WindowBar_MouseDown(object sender, MouseButtonEventArgs e)
         {

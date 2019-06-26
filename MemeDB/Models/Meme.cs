@@ -11,28 +11,40 @@ namespace MemeDB.Models
 {
     public class Meme
     {
+        #region Properties
         public string Name { get; set; }
         public string Path { get; set; }
         public string[] Tags { get; set; }
         public ImageSource Thumbnail { get; set; }
         public float? ThumbnailFrame { get; set; }
+        #endregion
 
+        #region Constructor
         public Meme(string name, string path, string[] tags, float? thumbnailFrame)
         {
             Name = name;
             Path = path;
             Tags = tags;
             ThumbnailFrame = thumbnailFrame;
-            Thumbnail = GenerateThumbnail();
+            try
+            {
+                Thumbnail = GenerateThumbnail();
+            } catch (Exception ex)
+            {
+                //TODO: use alternative Thumbnail
+                Console.WriteLine("Error generating Thumbnail Image: " + ex.Message);
+            }
         }
+        #endregion
 
+        #region Functions
         public ImageSource GenerateThumbnail(float? frame = null)
         {
             using (MemoryStream memStream = new MemoryStream())
             {
                 FFMpegConverter ffmpeg = new FFMpegConverter();
                 ffmpeg.GetVideoThumbnail(Path, memStream, frame != null ? frame : ThumbnailFrame);
-
+                
                 using (Image image = Image.FromStream(memStream, true, false))
                 {
                     var bitmapSource = GetImageStream(image);
@@ -64,5 +76,6 @@ namespace MemeDB.Models
         [DllImport("gdi32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool DeleteObject(IntPtr value);
+        #endregion
     }
 }

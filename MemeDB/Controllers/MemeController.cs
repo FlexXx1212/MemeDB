@@ -7,10 +7,11 @@ namespace MemeDB.Controllers
 {
     class MemeController
     {
+        #region Properties
         public static string FilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MemeDB", "memes.xml");
-
         public ObservableCollection<Meme> Memes { get; set; }
-
+        #endregion
+        
         #region Singelton
         private static MemeController instance;
 
@@ -25,19 +26,22 @@ namespace MemeDB.Controllers
         }
         #endregion
 
+        #region Constructor
         private MemeController()
         {
             Memes = new ObservableCollection<Meme>();
             LoadMemes();
         }
+        #endregion
 
+        #region Functions
         /// <summary>
         /// Dummy Function to preload memes
         /// </summary>
         private void LoadMemes()
         {
-            var meme1 = CreateAndAddMeme(@"D:\Videos\Recordings\VFX\MCDAB.mp4", new string[] { "minecraft", "dab", "mc", "dabben", "lit", "fam" }, "MC Dab");
-            var meme2 = CreateAndAddMeme(@"D:\Videos\Recordings\VFX\SubscribeLike_GFX.mp4", new string[] { "subscribe", "like", "abonnieren", "gefällt", "sub" }, "Subscribe & Like");
+            var meme1 = AddMeme(@"D:\Videos\Recordings\VFX\MCDAB.mp4", new string[] { "minecraft", "dab", "mc", "dabben", "lit", "fam" }, "MC Dab");
+            var meme2 = AddMeme(@"D:\Videos\Recordings\VFX\SubscribeLike_GFX.mp4", new string[] { "subscribe", "like", "abonnieren", "gefällt", "sub" }, "Subscribe & Like");
         }
 
         /// <summary>
@@ -47,12 +51,12 @@ namespace MemeDB.Controllers
         /// <param name="tags">List of Tags</param>
         /// <param name="name">Name of the Meme</param>
         /// <returns></returns>
-        public Meme CreateAndAddMeme(string path, string[] tags = null, string name = null)
+        public Meme AddMeme(string path, string[] tags = null, string name = null)
         {
             if (MemeExists(path))
                 return null;
 
-            Meme m = new Meme(Path.GetFileNameWithoutExtension(path), path, tags, 0);
+            Meme m = new Meme(name == null ? Path.GetFileNameWithoutExtension(path) : name, path, tags, 0);
             Memes.Add(m);
             return m;
         }
@@ -66,5 +70,11 @@ namespace MemeDB.Controllers
             }
             return false;
         }
+
+        public void DeleteMeme()
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
     }
 }

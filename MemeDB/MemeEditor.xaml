@@ -13,9 +13,33 @@
             <Button DockPanel.Dock="Right" Width="25" Background="Transparent" Foreground="#3498db" FontWeight="Bold" FontSize="20" Padding="0" KeyboardNavigation.IsTabStop="False" BorderBrush="Transparent" FontFamily="Marlett" Height="25" VerticalAlignment="Bottom" Click="Button_Click_2">0</Button>
             <Label Foreground="#3498db" FontSize="20" FontWeight="Bold" Padding="7,2">MemeEditor</Label>
         </DockPanel>
-        <DockPanel>
-            <TextBlock>Nix</TextBlock>
-        </DockPanel>
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="0.5*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Column="0" Grid.Row="0" Foreground="#34495e" FontSize="20" FontWeight="Bold">Name:</Label>
+            <TextBox Name="tbName" Grid.Column="1" Grid.Row="0" Height="40" Background="#34495e" FontSize="20" Foreground="#3498db"/>
+            <Label Grid.Column="0" Grid.Row="1" Foreground="#34495e" FontSize="20" FontWeight="Bold">Tags:</Label>
+            <DockPanel Grid.Column="1" Grid.Row="1">
+                <DockPanel DockPanel.Dock="Top">
+                    <Button Name="btnDelete" Height="40" DockPanel.Dock="Right" Width="50" Margin="5" Background="#2c3e50" Foreground="#3498db" FontWeight="Bold" FontSize="20" Click="btnDelete_Click">DEL</Button>
+                    <Button Name="btnAdd" Height="40" DockPanel.Dock="Right" Width="50" Margin="5" Background="#2c3e50" Foreground="#3498db" FontWeight="Bold" FontSize="20" Click="btnAdd_Click">ADD</Button>
+                    <TextBox Name="tbSearch" Height="40" Background="#34495e" FontSize="20" Foreground="#3498db"/>
+                </DockPanel>
+                <ListBox Name="lbTags" SelectionMode="Single" Background="#34495e" FontSize="20" Foreground="#3498db"/>
+            </DockPanel>
+            <Button Name="btnDeleteMeme" Grid.Row="2" Margin="0,5,0,0" HorizontalAlignment="Left" Grid.Column="0" Width="100" Background="#2c3e50" Foreground="#3498db" FontWeight="Bold" FontSize="20" Click="btnDeleteMeme_Click">Delete</Button>
+            <DockPanel Grid.Column="1" Grid.Row="2" LastChildFill="False">
+                <Button Name="btnClose" DockPanel.Dock="Right" Width="100" Margin="0,5,0,0" Background="#2c3e50" Foreground="#3498db" FontWeight="Bold" FontSize="20" Click="btnClose_Click">Close</Button>
+                <Button Name="btnSave" DockPanel.Dock="Right"  Width="100" Margin="0,5,0,0" Background="#2c3e50" Foreground="#3498db" FontWeight="Bold" FontSize="20" Click="btnSave_Click">Save</Button>
+            </DockPanel>
+        </Grid>
     </DockPanel>
     <WindowChrome.WindowChrome>
         <WindowChrome     
