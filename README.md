@@ -20,7 +20,6 @@ A Tool to Organize your memes for Video Editing
   - Edit Tags
   - Edit Name
   - Maybe Change Thumbnail ?
-- Config File that saves settings
 - Data File that saves all Tags, Names, (Thumbnails)
 
 ## Styling
