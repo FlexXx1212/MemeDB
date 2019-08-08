@@ -44,10 +44,10 @@
                     <MenuItem Name="MenuButtonExit" Header="Exit" Click="MenuButtonExit_Click"/>
                 </MenuItem>
                 <MenuItem Header="Edit" Foreground="#3498db">
-                    <MenuItem Name="MenuButtonEditMeme" Header="Edit Meme" Click="MenuButtonEditMeme_Click"/>
-                    <MenuItem Name="MenuButtonDeleteMeme" Header="Delete Meme" Click="MenuButtonDeleteMeme_Click"/>
+                    <MenuItem Name="MenuButtonEditMeme" Header="Edit Meme" Click="MenuButtonEditMeme_Click" IsEnabled="False"/>
+                    <MenuItem Name="MenuButtonDeleteMeme" Header="Delete Meme" Click="MenuButtonDeleteMeme_Click" IsEnabled="False"/>
                 </MenuItem>
-                <MenuItem Name="MenuButtonOptions" Header="Options" Foreground="#3498db" Click="MenuButtonOptions_Click"/>
+                <!--<MenuItem Name="MenuButtonOptions" Header="Options" Foreground="#3498db" Click="MenuButtonOptions_Click"/>-->
                 <MenuItem Name="MenuButtonAbout" Header="About" Foreground="#3498db" Click="MenuButtonAbout_Click"/>
             </Menu>
         </DockPanel>
@@ -70,7 +70,7 @@
                 <TextBox FontSize="15" CaretBrush="#3498db" Height="30" BorderThickness="0" Width="400" Foreground="#3498db" Name="txtSearchBox" Background="Transparent" TextChanged="txtSearchBox_TextChanged" />
                 <Separator Background="#FF3498DB" Height="2" VerticalAlignment="Bottom"/>
             </Grid>
-            <ListBox Name="MainList" SelectionMode="Single" MouseMove="MainList_MouseMove"  AllowDrop="True" Drop="MainList_Drop" BorderThickness="0" ItemsSource="{Binding Path=Memes, ElementName=MyMainWindow}" ItemTemplate="{StaticResource MyImagesItemTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent" SelectionChanged="MainList_SelectionChanged"/>
+            <ListBox Name="MainList" SelectionMode="Single" MouseMove="MainList_MouseMove"  AllowDrop="True" Drop="MainList_Drop" BorderThickness="0" ItemsSource="{Binding Path=Memes, ElementName=MyMainWindow}" ItemTemplate="{StaticResource MyImagesItemTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent" SelectionChanged="MainList_SelectionChanged" MouseLeftButtonDown="MainList_MouseLeftButtonDown" KeyDown="MainList_KeyDown"/>
         </DockPanel>
     </DockPanel>
     <WindowChrome.WindowChrome>

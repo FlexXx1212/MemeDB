@@ -56,7 +56,7 @@ namespace MemeDB.Controllers
             if (MemeExists(path))
                 return null;
 
-            Meme m = new Meme(name == null ? Path.GetFileNameWithoutExtension(path) : name, path, tags, 0);
+            Meme m = new Meme(name == null ? Path.GetFileNameWithoutExtension(path) : name, path, tags);
             Memes.Add(m);
             return m;
         }
@@ -71,9 +71,10 @@ namespace MemeDB.Controllers
             return false;
         }
 
-        public void DeleteMeme()
+        public void DeleteMeme(Meme m)
         {
-            throw new NotImplementedException();
+            if(Memes != null && Memes.Contains(m))
+                Memes.Remove(m);
         }
         #endregion
     }

@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MemeDB.Controllers;
 using MemeDB.Models;
 
 namespace MemeDB
@@ -77,6 +78,7 @@ namespace MemeDB
             {
                 lbTags.Items.Add(tbSearch.Text);
             }
+            tbSearch.Text = "";
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
@@ -84,13 +86,14 @@ namespace MemeDB
             if(lbTags.SelectedItem != null)
             {
                 lbTags.Items.Remove(lbTags.SelectedItem);
-                lbTags.SelectedIndex = 0;
             }
         }
 
         private void btnDeleteMeme_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: warning
+            var respsonse = MessageBox.Show("Really delete the meme \"" + meme.Name + "\" ?", "Really?", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (respsonse == MessageBoxResult.Yes)
+                MemeController.Instance.DeleteMeme(meme);
             this.Close();
         }
         #endregion
@@ -134,5 +137,15 @@ namespace MemeDB
         }
         #endregion
 
+        private void lbTags_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Delete)
+            {
+                if (lbTags.SelectedItem != null)
+                {
+                    lbTags.Items.Remove(lbTags.SelectedItem);
+                }
+            }
+        }
     }
 }

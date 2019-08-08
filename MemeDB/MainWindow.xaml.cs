@@ -78,6 +78,36 @@ namespace MemeDB
             tes.Owner = this;
             tes.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             tes.ShowDialog();
+            UpdateTagList();
+        }
+
+        private void UpdateTagList()
+        {
+            Meme meme = MainList.SelectedItem as Meme;
+
+            lbTags.Items.Clear();
+
+            btnEdit.IsEnabled = false;
+            MenuButtonEditMeme.IsEnabled = false;
+            MenuButtonDeleteMeme.IsEnabled = false;
+
+            if (meme == null)
+                return;
+
+            if (MainList.SelectedItems != null && MainList.SelectedItems.Count > 1)
+                return;
+
+            if (meme.Tags != null && meme.Tags.Length > 0)
+            {
+                foreach (var tag in meme.Tags)
+                {
+                    lbTags.Items.Add(tag);
+                }
+            }
+
+            btnEdit.IsEnabled = true;
+            MenuButtonEditMeme.IsEnabled = true;
+            MenuButtonDeleteMeme.IsEnabled = true;
         }
 
         private void AddMemesFromExplorer()
@@ -95,7 +125,13 @@ namespace MemeDB
 
         private void DeleteMeme()
         {
-            MemeController.Instance.DeleteMeme();
+            var selected = MainList.SelectedItem as Meme;
+            if (selected != null)
+            {
+                var respsonse = MessageBox.Show("Really delete the meme \"" + selected.Name + "\" ?", "Really?", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if(respsonse == MessageBoxResult.Yes)
+                    MemeController.Instance.DeleteMeme(selected);
+            }
         }
         #endregion
         
@@ -106,36 +142,13 @@ namespace MemeDB
                 MainList.ItemsSource = SearchTest(txtSearchBox.Text);
             else
                 MainList.ItemsSource = Memes;
-
-            if (MainList.SelectedItem == null)
-                MainList.SelectedIndex = 0;
         }
 
         private void MainList_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            Meme meme = MainList.SelectedItem as Meme;
-
-            lbTags.Items.Clear();
-
-            btnEdit.IsEnabled = false;
-
-            if (meme == null)
-                return;
-
-            if (MainList.SelectedItems != null && MainList.SelectedItems.Count > 1)
-                return;
-
-            if (meme.Tags != null && meme.Tags.Length > 0)
-            {
-                foreach (var tag in meme.Tags)
-                {
-                    lbTags.Items.Add(tag);
-                }
-            }
-
-            btnEdit.IsEnabled = true;
+            UpdateTagList();
         }
-
+        
         private void MainList_Drop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -213,6 +226,17 @@ namespace MemeDB
         {
             if(e.ClickCount == 2)
                 EditMeme();
+        }
+
+        private void MainList_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            MainList.SelectedItem = null;
+        }
+
+        private void MainList_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+                DeleteMeme();
         }
         #endregion
 

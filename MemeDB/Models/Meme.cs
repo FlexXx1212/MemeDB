@@ -6,6 +6,8 @@ using System.Runtime.InteropServices;
 using System;
 using System.Windows.Media.Imaging;
 using System.Windows;
+using System.Collections.Generic;
+using WMPLib;
 
 namespace MemeDB.Models
 {
@@ -16,34 +18,50 @@ namespace MemeDB.Models
         public string Path { get; set; }
         public string[] Tags { get; set; }
         public ImageSource Thumbnail { get; set; }
-        public float? ThumbnailFrame { get; set; }
+        public static readonly List<string> ImageExtensions = new List<string> { ".JPG", ".JPE", ".BMP", ".GIF", ".PNG", ".JPEG" };
         #endregion
 
         #region Constructor
-        public Meme(string name, string path, string[] tags, float? thumbnailFrame)
+        public Meme(string name, string path, string[] tags)
         {
             Name = name;
             Path = path;
             Tags = tags;
-            ThumbnailFrame = thumbnailFrame;
-            try
+
+            if (ImageExtensions.Contains(System.IO.Path.GetExtension(path).ToUpperInvariant()))
             {
-                Thumbnail = GenerateThumbnail();
-            } catch (Exception ex)
+                BitmapImage img = new BitmapImage();
+                img.BeginInit();
+                img.UriSource = new Uri(path);
+                img.EndInit();
+                Thumbnail = img;
+            }
+            else
             {
-                //TODO: use alternative Thumbnail
-                Console.WriteLine("Error generating Thumbnail Image: " + ex.Message);
+                try
+                {
+                    Thumbnail = GenerateThumbnail();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error generating Thumbnail Image: " + ex.Message);
+                }
             }
         }
         #endregion
 
         #region Functions
+
         public ImageSource GenerateThumbnail(float? frame = null)
         {
             using (MemoryStream memStream = new MemoryStream())
             {
                 FFMpegConverter ffmpeg = new FFMpegConverter();
-                ffmpeg.GetVideoThumbnail(Path, memStream, frame != null ? frame : ThumbnailFrame);
+
+                var player = new WindowsMediaPlayer();
+                var clip = player.newMedia(Path);
+
+                ffmpeg.GetVideoThumbnail(Path, memStream, (float?) clip.duration / 2);
                 
                 using (Image image = Image.FromStream(memStream, true, false))
                 {

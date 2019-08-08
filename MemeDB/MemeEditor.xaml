@@ -32,7 +32,7 @@
                     <Button Name="btnAdd" Height="40" DockPanel.Dock="Right" Width="50" Margin="5" Background="#2c3e50" Foreground="#3498db" FontWeight="Bold" FontSize="20" Click="btnAdd_Click">ADD</Button>
                     <TextBox Name="tbSearch" Height="40" Background="#34495e" FontSize="20" Foreground="#3498db"/>
                 </DockPanel>
-                <ListBox Name="lbTags" SelectionMode="Single" Background="#34495e" FontSize="20" Foreground="#3498db"/>
+                <ListBox Name="lbTags" SelectionMode="Single" Background="#34495e" FontSize="20" Foreground="#3498db" KeyDown="lbTags_KeyDown"/>
             </DockPanel>
             <Button Name="btnDeleteMeme" Grid.Row="2" Margin="0,5,0,0" HorizontalAlignment="Left" Grid.Column="0" Width="100" Background="#2c3e50" Foreground="#3498db" FontWeight="Bold" FontSize="20" Click="btnDeleteMeme_Click">Delete</Button>
             <DockPanel Grid.Column="1" Grid.Row="2" LastChildFill="False">
