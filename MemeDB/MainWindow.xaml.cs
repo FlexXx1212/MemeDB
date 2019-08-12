@@ -32,8 +32,8 @@ namespace MemeDB
         private void InitText()
         {
             Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(Properties.Settings.Default.Language);
-            btnEdit.Content = Properties.Resources.ButtonEdit;
-            tbPreviewSearchBar.Text = Properties.Resources.PreviewSearchBar;
+            //btnEdit.Content = Properties.Resources.ButtonEdit;
+            //tbPreviewSearchBar.Text = Properties.Resources.PreviewSearchBar;
         }
 
         private ObservableCollection<Meme> SearchTest(string text)
@@ -78,6 +78,7 @@ namespace MemeDB
             tes.Owner = this;
             tes.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             tes.ShowDialog();
+            MainList.Items.Refresh();
             UpdateTagList();
         }
 

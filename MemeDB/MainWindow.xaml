@@ -23,8 +23,8 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-                <Image Grid.Row="0" Source="{Binding Path=Thumbnail}" Height="80" Width="90" Stretch="UniformToFill"/>
-                <Label Grid.Row="1" Content="{Binding Path=Name}" HorizontalAlignment="Center" Foreground="#3498db" FontWeight="Bold"/>
+                <Image Grid.Row="0" Source="{Binding Path=Thumbnail}" Height="80" Width="100" Stretch="UniformToFill"/>
+                <Label Grid.Row="1" Content="{Binding Path=Name}" HorizontalAlignment="Center" Foreground="#3498db" FontWeight="Bold" Margin="0" Padding="0"/>
             </Grid>
         </DataTemplate>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>

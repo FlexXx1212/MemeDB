@@ -8,15 +8,18 @@ using System.Windows.Media.Imaging;
 using System.Windows;
 using System.Collections.Generic;
 using WMPLib;
+using Newtonsoft.Json;
 
 namespace MemeDB.Models
 {
+    [Serializable]
     public class Meme
     {
         #region Properties
         public string Name { get; set; }
         public string Path { get; set; }
         public string[] Tags { get; set; }
+        [JsonIgnore]
         public ImageSource Thumbnail { get; set; }
         public static readonly List<string> ImageExtensions = new List<string> { ".JPG", ".JPE", ".BMP", ".GIF", ".PNG", ".JPEG" };
         #endregion

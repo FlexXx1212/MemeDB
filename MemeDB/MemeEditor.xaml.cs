@@ -69,6 +69,7 @@ namespace MemeDB
 
             meme.Tags = newTags;
 
+            MemeController.Instance.Save();
             this.Close();
         }
 

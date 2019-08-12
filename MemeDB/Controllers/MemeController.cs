@@ -1,14 +1,16 @@
 ﻿using MemeDB.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Windows;
 
 namespace MemeDB.Controllers
 {
     class MemeController
     {
         #region Properties
-        public static string FilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MemeDB", "memes.xml");
+        public static string FilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MemeDB", "memes.json");
         public ObservableCollection<Meme> Memes { get; set; }
         #endregion
         
@@ -35,13 +37,33 @@ namespace MemeDB.Controllers
         #endregion
 
         #region Functions
-        /// <summary>
-        /// Dummy Function to preload memes
-        /// </summary>
         private void LoadMemes()
         {
-            var meme1 = AddMeme(@"D:\Videos\Recordings\VFX\MCDAB.mp4", new string[] { "minecraft", "dab", "mc", "dabben", "lit", "fam" }, "MC Dab");
-            var meme2 = AddMeme(@"D:\Videos\Recordings\VFX\SubscribeLike_GFX.mp4", new string[] { "subscribe", "like", "abonnieren", "gefällt", "sub" }, "Subscribe & Like");
+            if (File.Exists(FilePath))
+            {
+                try
+                {
+                    var fileContent = File.ReadAllText(FilePath);
+                    Memes = JsonConvert.DeserializeObject<ObservableCollection<Meme>>(fileContent);
+                }
+                catch
+                {
+                    MessageBox.Show("Could not load Memes. Please make sure you have sufficient rights, and the file is not open in another program.", "Error Loading Data", MessageBoxButton.OK, MessageBoxImage.Error);
+                    Memes = new ObservableCollection<Meme>();
+                }
+            }
+        }
+
+        public void Save()
+        {
+            try
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(FilePath));
+                File.WriteAllText(FilePath, JsonConvert.SerializeObject(Memes,Formatting.Indented));
+            } catch
+            {
+                MessageBox.Show("Could not save Memes. Please make sure you have sufficient rights, and the file is not open in another program.", "Error Saving Data", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         /// <summary>
@@ -58,6 +80,7 @@ namespace MemeDB.Controllers
 
             Meme m = new Meme(name == null ? Path.GetFileNameWithoutExtension(path) : name, path, tags);
             Memes.Add(m);
+            Save();
             return m;
         }
 
@@ -75,6 +98,7 @@ namespace MemeDB.Controllers
         {
             if(Memes != null && Memes.Contains(m))
                 Memes.Remove(m);
+            Save();
         }
         #endregion
     }

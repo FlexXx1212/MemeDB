@@ -24,3 +24,5 @@ D:\Git\MemeDB\MemeDB\obj\Debug\MemeEditor.g.cs
 D:\Git\MemeDB\MemeDB\obj\Debug\MemeEditor.baml
 D:\Git\MemeDB\MemeDB\obj\Debug\Interop.WMPLib.dll
 D:\Git\MemeDB\MemeDB\obj\Debug\MemeDB.csproj.ResolveComReference.cache
+D:\Git\MemeDB\MemeDB\bin\Debug\Newtonsoft.Json.dll
+D:\Git\MemeDB\MemeDB\bin\Debug\Newtonsoft.Json.xml
